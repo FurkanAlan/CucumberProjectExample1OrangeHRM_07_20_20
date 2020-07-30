@@ -1,0 +1,450 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.orangeHRM</groupId>
+    <artifactId>CucumberProjectExample1OrangeHRM_07_20_20</artifactId>
+    <version>1.0-SNAPSHOT</version>
+
+    <properties>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <allure.version>1.4.23</allure.version>
+        <aspectj.version>1.8.10</aspectj.version>
+    </properties>
+
+    <dependencies>
+
+        <!-- https://mvnrepository.com/artifact/org.seleniumhq.selenium/selenium-java -->
+        <dependency>
+            <groupId>org.seleniumhq.selenium</groupId>
+            <artifactId>selenium-java</artifactId>
+            <version>3.141.59</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>4.1.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/commons-io/commons-io -->
+        <dependency>
+            <groupId>commons-io</groupId>
+            <artifactId>commons-io</artifactId>
+            <version>2.6</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-java -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-java</artifactId>
+            <version>4.8.0</version>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.cucumber/cucumber-junit -->
+        <dependency>
+            <groupId>io.cucumber</groupId>
+            <artifactId>cucumber-junit</artifactId>
+            <version>4.8.0</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/io.github.bonigarcia/webdrivermanager -->
+        <dependency>
+            <groupId>io.github.bonigarcia</groupId>
+            <artifactId>webdrivermanager</artifactId>
+            <version>3.8.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.7.21</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.7.21</version>
+        </dependency>
+
+        <dependency>
+            <groupId>log4j</groupId>
+            <artifactId>log4j</artifactId>
+            <version>1.2.17</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.aventstack/extentreports -->
+        <dependency>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>4.0.9</version>
+        </dependency>
+
+
+        <!-- https://mvnrepository.com/artifact/io.qameta.allure/allure-cucumber-jvm -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-cucumber-jvm</artifactId>
+            <version>2.0-BETA6</version>
+        </dependency>
+
+        <dependency>
+            <groupId>ru.yandex.qatools.allure</groupId>
+            <artifactId>allure-cucumber-jvm-adaptor</artifactId>
+            <version>1.5.1</version>
+        </dependency>
+
+
+<!--        <dependency>-->
+<!--            <groupId>net.masterthought</groupId>-->
+<!--            <artifactId>cucumber-reporting</artifactId>-->
+<!--            <version>2.1.0</version>-->
+<!--        </dependency>-->
+
+    </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <configuration>
+                    <runOrder>Alphabetical</runOrder>
+                    <includes>
+                        <include>*/*Runner.java</include>
+                    </includes>
+                    <testFailureIgnore>true</testFailureIgnore>
+
+                    <parallel>methods</parallel>
+                    <threadCount>2</threadCount>
+
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>net.masterthought</groupId>
+                <artifactId>maven-cucumber-reporting</artifactId>
+                <version>4.9.0</version>
+                <executions>
+                    <execution>
+                        <id>execution</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <projectName>Cucumber HTML Reports</projectName>
+                            <outputDirectory>${project.build.directory}</outputDirectory>
+                            <inputDirectory>${project.build.directory}</inputDirectory>
+                            <jsonFiles>
+                                <param>*/cucumber.json</param>
+                            </jsonFiles>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.7.0</version>
+                <configuration>
+                    <encoding>UTF-8</encoding>
+                    <source>8</source>
+                    <target>8</target>
+                </configuration>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <profiles>
+        <profile>
+            <id>ParallelRunner</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-surefire-plugin</artifactId>
+                        <version>3.0.0-M3</version>
+                        <configuration>
+                            <parallel>methods</parallel>
+                            <perCoreThreadCount>false</perCoreThreadCount>
+                            <threadCountMethods>2</threadCountMethods>
+                            <includes>
+                                <include>**/ParallelRunner.java</include>
+                                <!--                                <include>**/FailedRunner.java</include>-->
+                            </includes>
+                            <testFailureIgnore>false</testFailureIgnore>
+                        </configuration>
+                    </plugin>
+
+
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <artifactId>maven-compiler-plugin</artifactId>
+                        <version>3.7.0</version>
+                        <configuration>
+                            <encoding>UTF-8</encoding>
+                            <source>8</source>
+                            <target>8</target>
+                        </configuration>
+                    </plugin>
+
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
+
+
+<!--    <profiles>-->
+<!--        <profile>-->
+<!--            <id>ParallelRunner</id>-->
+<!--            <build>-->
+<!--                <plugins>-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-compiler-plugin</artifactId>-->
+<!--                        <version>3.8.1</version>-->
+<!--                        <configuration>-->
+<!--                            <source>8</source>-->
+<!--                            <source>8</source>-->
+<!--                        </configuration>-->
+<!--                    </plugin>-->
+<!--                    <plugin>-->
+<!--                        <groupId>org.apache.maven.plugins</groupId>-->
+<!--                        <artifactId>maven-surefire-plugin</artifactId>-->
+<!--                        <version>3.0.0-M4</version>-->
+<!--                        &lt;!&ndash;                for paralelel Cucumber running&ndash;&gt;-->
+<!--                        <configuration>-->
+<!--                            <parallel>method</parallel>-->
+<!--                            <threadCount>5</threadCount>-->
+<!--                            &lt;!&ndash;                    <useUnlimitedThreads>true</useUnlimitedThreads>&ndash;&gt;-->
+<!--                            <includes>-->
+<!--                                <include>**/*Runner*.java</include>-->
+<!--                                <testFailureIgnore>true</testFailureIgnore>-->
+<!--                            </includes>-->
+<!--                        </configuration>-->
+<!--                    </plugin>-->
+<!--                </plugins>-->
+<!--            </build>-->
+
+<!--        </profile>-->
+<!--    </profiles>-->
+
+
+    <!--    <build>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-compiler-plugin</artifactId>-->
+    <!--                <version>3.8.1</version>-->
+    <!--                <configuration>-->
+    <!--                    <source>8</source>-->
+    <!--                    <source>8</source>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-surefire-plugin</artifactId>-->
+    <!--                <version>3.0.0-M4</version>-->
+    <!--                &lt;!&ndash;                for paralelel Cucumber running&ndash;&gt;-->
+    <!--                <configuration>-->
+    <!--                    <parallel>method</parallel>-->
+    <!--                    <threadCount>5</threadCount>-->
+    <!--                    &lt;!&ndash;                    <useUnlimitedThreads>true</useUnlimitedThreads>&ndash;&gt;-->
+    <!--                    <includes>-->
+    <!--                        <include>**/*Runner*.java</include>-->
+    <!--                        <testFailureIgnore>true</testFailureIgnore>-->
+    <!--                    </includes>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </build>-->
+
+
+    <!--    <build>-->
+
+    <!--        <plugins>-->
+
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-surefire-plugin</artifactId>-->
+    <!--                <version>3.0.0-M1</version>-->
+    <!--                <configuration>-->
+    <!--                    <runOrder>Alphabetical</runOrder>-->
+    <!--                    <includes>-->
+    <!--                        &lt;!&ndash; *Runner means, it will include runner classes name ends with runner.&ndash;&gt;-->
+    <!--                        &lt;!&ndash;                        biz burada testleri Alphabetical order ile dahil ettigimiz icin sirasiyla <include> olan &ndash;&gt;-->
+    <!--                        &lt;!&ndash;                        testleri calsitiracak&ndash;&gt;-->
+    <!--                        <include>**/*Runner*.java</include>-->
+    <!--                        <include>**/*Failed*.java</include>-->
+    <!--                        &lt;!&ndash;                        test fail oldugunda onun durmasini engel oluyor asagidaki ifade&ndash;&gt;-->
+    <!--                    </includes>-->
+    <!--                    <testFailureIgnore>true</testFailureIgnore>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+
+    <!--            <plugin>-->
+    <!--                <groupId>net.masterthought</groupId>-->
+    <!--                <artifactId>maven-cucumber-reporting</artifactId>-->
+    <!--                <version>5.0.0</version>-->
+    <!--                <executions>-->
+    <!--                    <execution>-->
+    <!--                        <id>execution</id>-->
+    <!--                        <phase>verify</phase>-->
+    <!--                        <goals>-->
+    <!--                            <goal>generate</goal>-->
+    <!--                        </goals>-->
+    <!--                        <configuration>-->
+    <!--                            <projectName>CucumberProjectExample1OrangeHRM_07_20_20</projectName>-->
+    <!--                            &lt;!&ndash; output directory for the generated report &ndash;&gt;-->
+    <!--                            <outputDirectory>${project.build.directory}</outputDirectory>-->
+    <!--                            &lt;!&ndash; optional, defaults to outputDirectory if not specified &ndash;&gt;-->
+    <!--                            <inputDirectory>${project.build.directory}</inputDirectory>-->
+    <!--                            <jsonFiles>-->
+    <!--                                &lt;!&ndash; supports wildcard or name pattern &ndash;&gt;-->
+    <!--                                <param>**/*.json</param>-->
+    <!--                            </jsonFiles>-->
+    <!--                        </configuration>-->
+    <!--                    </execution>-->
+    <!--                </executions>-->
+    <!--            </plugin>-->
+
+    <!--        </plugins>-->
+
+    <!--    </build>-->
+
+
+    <!--    <profiles>-->
+    <!--        <profile>-->
+    <!--            <id>ParallelRunner</id>-->
+    <!--            <build>-->
+
+    <!--                <plugins>-->
+
+    <!--                    <plugin>-->
+    <!--                        <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                        <artifactId>maven-surefire-plugin</artifactId>-->
+    <!--                        <version>3.0.0-M1</version>-->
+    <!--                        <configuration>-->
+    <!--                            <parallel>method</parallel>-->
+    <!--                            &lt;!&ndash;<threadCount>5</threadCount>, bu kod bize 5 tane browser acacak ayni anda, 5 tane paralel-->
+    <!--                            test, birde paralel testi calistirmak icin mvn commanda dan calistrilmali, bu ayni zamanda runner-->
+    <!--                             class a da bagli&ndash;&gt;-->
+    <!--                            <perCoreThreadCount>false</perCoreThreadCount>-->
+    <!--                            &lt;!&ndash;                            .feature sayisi kadar threadCountMethods sayi olmali&ndash;&gt;-->
+    <!--                            <threadCountMethods>5</threadCountMethods>-->
+
+    <!--                            <includes>-->
+    <!--                                &lt;!&ndash; *Runner means, it will include runner classes name ends with runner.&ndash;&gt;-->
+    <!--                                &lt;!&ndash;                                konsol komutu olarak mvn test -P ParallelRunner yada  oluyor&ndash;&gt;-->
+    <!--                                <include>**/ParallelRunner.java</include>-->
+    <!--                                &lt;!&ndash;                        test fail oldugunda onun durmasini engel oluyor asagidaki ifade&ndash;&gt;-->
+    <!--                                <testFailureIgnore>true</testFailureIgnore>-->
+    <!--                            </includes>-->
+    <!--                        </configuration>-->
+    <!--                    </plugin>-->
+
+    <!--                    <plugin>-->
+    <!--                        <groupId>net.masterthought</groupId>-->
+    <!--                        <artifactId>maven-cucumber-reporting</artifactId>-->
+    <!--                        <version>5.0.0</version>-->
+    <!--                        <executions>-->
+    <!--                            <execution>-->
+    <!--                                <id>execution</id>-->
+    <!--                                <phase>verify</phase>-->
+    <!--                                <goals>-->
+    <!--                                    <goal>generate</goal>-->
+    <!--                                </goals>-->
+    <!--                                <configuration>-->
+    <!--                                    <projectName>CucumberProjectExample1OrangeHRM_07_20_20</projectName>-->
+    <!--                                    &lt;!&ndash; output directory for the generated report &ndash;&gt;-->
+    <!--                                    <outputDirectory>${project.build.directory}</outputDirectory>-->
+    <!--                                    &lt;!&ndash; optional, defaults to outputDirectory if not specified &ndash;&gt;-->
+    <!--                                    <inputDirectory>${project.build.directory}</inputDirectory>-->
+    <!--                                    <jsonFiles>-->
+    <!--                                        &lt;!&ndash; supports wildcard or name pattern &ndash;&gt;-->
+    <!--                                        <param>**/*.json</param>-->
+    <!--                                    </jsonFiles>-->
+    <!--                                </configuration>-->
+    <!--                            </execution>-->
+    <!--                        </executions>-->
+    <!--                    </plugin>-->
+
+    <!--                </plugins>-->
+
+    <!--            </build>-->
+
+    <!--        </profile>-->
+    <!--    </profiles>-->
+
+
+    <!--    <build>-->
+    <!--        <plugins>-->
+    <!--            -->
+    <!--            <plugin>-->
+
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-surefire-plugin</artifactId>-->
+    <!--                <version>2.18.1</version>-->
+
+    <!--                <configuration>-->
+
+    <!--                    <testFailureIgnore>false</testFailureIgnore>-->
+    <!--                    <argLine>-->
+    <!--                        -javaagent:"/Users/ulkir/.m2/repository/org/aspectj/aspectjweaver/1.8.10/aspectjweaver-1.8.10.jar"-->
+    <!--                    </argLine>-->
+    <!--                    <properties>-->
+    <!--                        <property>-->
+    <!--                            <name>listener</name>-->
+    <!--                            <value>ru.yandex.qatools.allure.cucumberjvm.AllureRunListener</value>-->
+    <!--                        </property>-->
+    <!--                    </properties>-->
+    <!--                </configuration>-->
+    <!--                <dependencies>-->
+    <!--                    <dependency>-->
+    <!--                        <groupId>org.aspectj</groupId>-->
+    <!--                        <artifactId>aspectjweaver</artifactId>-->
+    <!--                        <version>${aspectj.version}</version>-->
+    <!--                    </dependency>-->
+    <!--                    <dependency>-->
+    <!--                        <groupId>org.apache.maven.surefire</groupId>-->
+    <!--                        <artifactId>surefire-junit47</artifactId>-->
+    <!--                        <version>2.13</version>-->
+    <!--                    </dependency>-->
+    <!--                </dependencies>-->
+    <!--            </plugin>-->
+
+    <!--            <plugin>-->
+    <!--                <groupId>org.apache.maven.plugins</groupId>-->
+    <!--                <artifactId>maven-compiler-plugin</artifactId>-->
+    <!--                <configuration>-->
+    <!--                    <source>8</source>-->
+    <!--                    <target>8</target>-->
+    <!--                </configuration>-->
+    <!--            </plugin>-->
+
+
+    <!--        </plugins>-->
+    <!--    </build>-->
+
+    <!--    <reporting>-->
+    <!--        <excludeDefaults>true</excludeDefaults>-->
+    <!--        <plugins>-->
+    <!--            <plugin>-->
+    <!--                <groupId>ru.yandex.qatools.allure</groupId>-->
+    <!--                <artifactId>allure-maven-plugin</artifactId>-->
+    <!--                <version>2.6</version>-->
+    <!--            </plugin>-->
+    <!--        </plugins>-->
+    <!--    </reporting>-->
+
+</project>

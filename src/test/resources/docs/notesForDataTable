@@ -1,0 +1,234 @@
+########################### Note 1 ###############################
+
+data provider and data table different types
+
+example for data table:
+
+  Scenario Outline: Invalid login error message validation
+    Given I enter username "<username>" and password "<password>"
+    When I click login button
+    Then I see "<errorMsg>"
+
+    Examples:
+      | username | password  | errorMsg                 |
+      | Admin    | Qwerty123 | Invalid credentials      |
+      | Admin    |           | Password cannot be empty |
+      | Admin123 | QWer123   | Invalid credentials      |
+      |          | admin123  | Username cannot be empty |
+      |          |           | Username cannot be empty |
+
+Data Table ayni zamanda map seklinde de yazilabilir
+
+Seklinde olmali
+
+ancak data provider ise
+Excel olabilir yada sql database olabilir, belki JSON dosyasi olabilir
+
+
+
+########################### Note 2 ###############################
+
+    public void i_enter_username_and_password_I_see_error_message(io.cucumber.datatable.DataTable dataTable) {
+        //list of map
+        List<Map<String, String>> maps = dataTable.asMaps();
+
+        //listedeki maps lerin icerisinde iterate edecegiz, listenin icerisi map oldugu icin bu sekilde yapildi
+        for (Map<String, String> map : maps) {
+            //birincisi WebElementi oluyor ikincisi ise ne gondercegimizi ifade ediyor
+            //nereye ne gonderecegimiz seklinde de dusunulebilir
+            //gonderecegimiz String ifadesini de olusturdumuz DataTable dan alicagmiz icin
+            //gonderecegimiz ifadeler sirasiyla
+            //username,  password,   hata mesaji olacak
+            //butun key ifadeleri DataTable ile ayni olmak zorunda
+
+            //DataTable in Scenerio Outline dan farkli, DT bir defa Browser Instance aciyor ve testleri bitirireseye
+            // kadar loop yapiyor ancak SO ise herbir case icin testi bitiriyor ondan sonra yeni test icin yeniden
+            // browser aciyor, yani ozet olarak test bir kere calisiyor DT icin ancak SO icin ise test sayisi kadar
+            // test calisiyor
+
+            sendText(login.userName, map.get("username"));
+            sendText(login.password, map.get("password"));
+
+            click(login.loginBtn);
+
+            Object key;
+            String actualErrorMessage = login.errMsg.getText();
+            String expectedErrorMessage = map.get("errorMsg");
+
+            Assert.assertEquals("Error message mismatched", expectedErrorMessage, actualErrorMessage);
+
+        }
+
+
+        Feature: Negative login test with Excel
+
+          Scenario: Negative Testing With Excel
+            When I enter username and password I see error message
+              | username | password  | errorMsg                 |
+              | Admin    | Qwerty123 | Invalid credentials      |
+              | Admin    |           | Password cannot be empty |
+              | Admin123 | QWer123   | Invalid credentials      |
+              |          | admin123  | Username cannot be empty |
+              |          |           | Username cannot be empty |
+
+#################################### 3 ############################################
+
+        Feature: Negative login test with Excel
+
+          Scenario: Negative Testing With Excel
+            When I enter username and password I see error message
+              | username | password  | errorMsg                 |
+              | Admin    | Qwerty123 | Invalid credentials      |
+
+eger bu sekilde data table varse bunu yazabilmek icin Map<String, String yapilir>
+
+        Map<String, String> map = dataTable.asMap ();
+
+        for (String text : map) {
+
+        }
+
+#################################### 4 ############################################
+
+        Feature: Negative login test with Excel
+
+          Scenario: Negative Testing With Excel
+            When I enter username and password I see error message
+              | Admin    | Qwerty123 | Invalid credentials      |
+
+eger bu sekilde data table varse bunu yazabilmek icin List<String, String yapilir>
+
+        List<String, String> list = dataTable.asList ();
+
+        for (String text : list) {
+
+        }
+
+
+#################################### 5 ############################################
+Scenario outline:
+ Example:
+      | username | password  | errorMsg                 |
+      | Admin    | Qwerty123 | Invalid credentials      |
+      | Admin    |           | Password cannot be empty |
+      | Admin123 | QWer123   | Invalid credentials      |
+      |          | admin123  | Username cannot be empty |
+      |          |           | Username cannot be empty |
+
+
+Data Table lari Ozet olarak yapacak olursak
+
+import io.cucumber.datatable.DataTable;
+
+dan geliyor DataTable
+
+1-)  DataTable With Header And Multiple Data Row
+
+Feature: Negative login test with Excel
+          Scenario:
+              | username | password  | errorMsg                 |
+              | Admin    | Qwerty123 | Invalid credentials      |
+              | Admin    |           | Password cannot be empty |
+              | Admin123 | QWer123   | Invalid credentials      |
+              |          | admin123  | Username cannot be empty |
+              |          |           | Username cannot be empty |
+
+
+ List<Map<String, String>> maps = dataTable.asMaps();
+
+         for (Map<String, String> map : maps) {
+         }
+
+2-) DataTable With Header And Single Data Row
+
+Feature:
+          Scenario:
+              | username | password  | errorMsg                 |
+              | Admin    | Qwerty123 | Invalid credentials      |
+
+
+
+ Map<String, String> map = dataTable.asMap();
+
+Belki boyle
+         for (String text : map) {
+         }
+
+yada boyle
+
+         for (Map<String, String>  : map) {
+         }
+
+
+3-)  DataTable Without Header And Multiple Data Row
+
+Feature:
+          Scenario:
+              | Admin    | Qwerty123 | Invalid credentials      |
+              | Admin    |           | Password cannot be empty |
+              | Admin123 | QWer123   | Invalid credentials      |
+              |          | admin123  | Username cannot be empty |
+              |          |           | Username cannot be empty |
+
+
+ List<List<String>> lists = dataTable.asLists();
+
+         for (List<String> list : lists) {
+         }
+
+
+
+4-) DataTable Without Header And Single Data Row
+
+Feature:
+          Scenario:
+              | Admin    | Qwerty123 | Invalid credentials      |
+
+
+ List<String> list = dataTable.asList();
+
+         for (String string : list) {
+         }
+
+Scenario Outline ila DataTable arasindaki en buyuk fark, Outline broser i kapatim aciyor lakin DataTable bir defa aciyor
+ tum metodlari calisitiriyor, veya dongu yapiyor
+################################################################################
+
+##################################### 6 ###########################################
+sendText() metodu CommonMetods da tanimli
+Buradaki, username, password DataTable olan headerlar ve ayni olmak zorunda
+
+1-) DataTable With Header And Multiple Data Row
+
+ List<Map<String, String>> maps = dataTable.asMaps();
+
+         for (Map<String, String> map : maps) {
+            sendText(login.userName, map.get("username"));
+            sendText(login.password, map.get("password"));
+
+            click(login.loginBtn);
+
+            String actualErrorMessage = login.errMsg.getText();
+            String expectedErrorMessage = map.get("errorMsg");
+         }
+
+3-)  DataTable Without Header And Multiple Data Row
+Buradaki get(0) = username, get(1) = password, get(2) = errorMsg
+manasina geliyor
+
+List<List<String>> lists = dataTableNoHeader.asLists();
+
+        for (List<String> list : lists) {
+            sendText(login.userName, list.get(0));
+            sendText(login.password, list.get(1));
+            try {
+                Thread.sleep(1000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            click(login.loginBtn);
+
+            String actualErrorMessage = login.errMsg.getText();
+            String expectedErrorMessage = list.get(2);
+
+            Assert.assertEquals("Someting went wrong", expectedErrorMessage, actualErrorMessage);
