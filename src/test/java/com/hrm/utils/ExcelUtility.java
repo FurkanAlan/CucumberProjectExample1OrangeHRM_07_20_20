@@ -60,9 +60,11 @@ public class ExcelUtility {
     public static List<ArrayList<String>> excelIntoListOfList(String filePath, String sheetName){
         openExcel(filePath, sheetName);
         List<ArrayList<String>> data=new ArrayList<ArrayList<String>>();
+//        List<List<String>> data=new ArrayList<>();
 
         for(int i=1; i<rowCount(); i++) {
             ArrayList<String> list=new ArrayList<String>();
+//            List<String> list=new ArrayList<String>();
             for(int j=0; j<colCount(); j++) {
                 list.add(getCellData(i, j));
             }

@@ -232,3 +232,214 @@ List<List<String>> lists = dataTableNoHeader.asLists();
             String expectedErrorMessage = list.get(2);
 
             Assert.assertEquals("Someting went wrong", expectedErrorMessage, actualErrorMessage);
+
+
+
+################################################################################
+
+##################################### 7 Excel den data okuma With Header ###########################################
+
+Excel data cekmek icin asMaps(), eger baslik varsa = K-V cifleri seklinde    yada asLists(), eger baslik yoksa = data
+lar ,  seklinde dusunulebilir
+
+Kullanilan metod asagida verildi
+Eger excel dosaymida baslik bilgilseri varsa Maps yada Map olarak dusunmeliyiz
+Buda Key, Value deger ciftleri olarak calisiyor
+
+List<Map<String, String>> data=new ArrayList<Map<String, String>>();
+
+Bu ifadenin manasi, Excel de bulunan, ifade ciftlerini K = header, V = degerler seklinde cifler olarak dusunulebilir
+Aslinda digeriyle DataTable ile ayni mantikda calisiyor
+
+firstName	middleName	lastName	userName	                password
+George	        G	      Hagi	     ghagi@gmail.com	        gHagi123-=
+Michael	        M	      Owen	     mowen@gmail.com	        mOwen123-=
+Donald	        D	      Trump	     dtrump@gmail.com	        dTrump123-=
+Gokhan	        Hasan	  Sas	     ghsas@gmail.com	        ghSas123-=
+Hakan	        H	      Sukur	     hsukur@gmail.com	        hSukur123-=
+James	        Jame	  Jones	     jjjones@gmail.com	        jjJones123-=
+
+
+for(int i=1; i<rowCount(); i++) {   ==>  Bu satirlara tekabul ediyor
+
+}
+
+Buradaki i = 1 in manasi, header i atla ikinci satirdan baslat, tabi bu excel de baslik varsa dogru oluyor
+
+Map<String, String> map=new HashMap<>();
+Bu ifadenin manasi ise, Herbir Satir icin bir map olusturacagiz ve bu map i listemize ekleyecegiz
+
+Herbir satirda yeni bir map olusturacagiz, ve bu map icerisinde o satirdaki bilgileri koyduktan sonrna
+bunu listemize ilave edecegiz
+
+Her bir satiri tariyacagiz ve bu satirlardaki degerleri map degiskenine yerlestiriyoruz
+
+
+Birinci data cifti
+1-)
+firstName	middleName	lastName	userName	                password   ======>  Key
+George	        G	      Hagi	     ghagi@gmail.com	        gHagi123-= ======> Value
+
+2-)
+firstName	middleName	lastName	userName	                password   ======>  Key
+Michael	        M	      Owen	     mowen@gmail.com	        mOwen123-= ======> Value
+
+3-)
+firstName	middleName	lastName	userName	                password     ======>  Key
+Donald	        D	      Trump	     dtrump@gmail.com	        dTrump123-=  ======> Value
+
+4-)
+firstName	middleName	lastName	userName	                password     ======>  Key
+Gokhan	        Hasan	  Sas	     ghsas@gmail.com	        ghSas123-=   ======> Value
+
+
+5-)
+firstName	middleName	lastName	userName	                password       ======>  Key
+James	        Jame	  Jones	     jjjones@gmail.com	        jjJones123-=   ======> Value
+
+
+
+
+for(int j=0; j<colCount(); j++) {
+
+}
+
+burada j = 0 ise sutun a karsilik geliyor, aslinda bunu 2D array gibi dusunmek lazim,
+
+i = 0 lar Key lere tekabul ediyor
+
+i = 1 ve j = 0 ise degerlere karsilik geliyor,
+    ---------------
+i=0 | K    | K    |
+    --------------
+i=1 | j=0  | j=1  |
+    --------------
+i=2 | j=0  | j=1  |
+    ---------------
+
+Bu sekilde tum degerleri taramis oluyoruz
+
+for(int i=1; i<rowCount(); i++) {
+    for(int j=0; j<colCount(); j++) {
+
+    }
+}
+
+map.put(Key, Value);
+map.put(getCellData(0, j), getCellData(i, j));
+
+getCellData(0, j)  =  Key,   0. satirdaki degisen sutun degerleri demek
+getCellData(i, j)  =  Value  bu ifade de onlara karislik gelen degerler demek,
+
+i = 1,  j = 0
+ornek olarak, (1,0),  birinci satirdaki 0. sutun degeri
+
+i = 1,  j = 1
+ornek olarak, (1,1),  birinci satirdaki 1. sutun degeri,
+seklinde tum degerleri tariyor
+
+
+en son olarak da map deki degerleri data ya ekle
+
+data.add(map);
+
+ve onlari return yap demek oluyor
+
+return data;
+
+
+    public static List<Map<String, String>> excelIntoListOfMaps(String filePath, String sheetName){
+        openExcel(filePath, sheetName);
+
+        List<Map<String, String>> data=new ArrayList<Map<String, String>>();
+
+        for(int i=1; i<rowCount(); i++) {
+            Map<String, String> map=new HashMap<>();
+            for(int j=0; j<colCount(); j++) {
+                map.put(getCellData(0, j), getCellData(i, j));
+            }
+            data.add(map);
+        }
+        return data;
+    }
+
+
+
+
+################################################################################
+
+##################################### 8 Excel den data okuma No Header ###########################################
+
+Mantik digeriyle aynni oluyor buradaki fark Key degerleri yok
+
+List<List<String>> data=new ArrayList<>();
+
+George	        G	      Hagi	     ghagi@gmail.com	        gHagi123-=
+Michael	        M	      Owen	     mowen@gmail.com	        mOwen123-=
+Donald	        D	      Trump	     dtrump@gmail.com	        dTrump123-=
+Gokhan	        Hasan	  Sas	     ghsas@gmail.com	        ghSas123-=
+Hakan	        H	      Sukur	     hsukur@gmail.com	        hSukur123-=
+James	        Jame	  Jones	     jjjones@gmail.com	        jjJones123-=
+
+buradaki herbir satir ArrayList in icerisne atiliyor, malum ArrayList dyanmic oldugu icin bunu yapabiliyrouz
+
+
+for(int i=0; i<rowCount(); i++) {  ==> satir bilgileri icinn
+}
+
+i = 0 dan baslattik cunku burada satir bilgisi yok
+
+Ancak bizdeki excel dosyasinda bu Sheet name => addEmp1  ila test yapiyoruz ve bunun ilk satirinda
+firstName	middleName	lastName	userName	                password
+tanimli oldugu icin
+
+for(int i=1; i<rowCount(); i++) {  ==>  i = 1 den baslatilmis
+}
+
+List<String> list=new ArrayList<>();
+
+Tum degerlerimizi list emize ekleyecegiz
+Herbir satirda bu listeyi tekrar tanimlayip icerisindeki degerleri alip, diger bir list in
+icersine kaydetmemiz lazim
+
+
+for(int j=0; j<colCount(); j++) {  ==> sutun bilgileri icin
+
+}
+List<String> list, burada tanimladiigmiz list icerisne ilgili satirdaki degerleri kaydediyoruz
+ve bu degerleri kaydetmek icin de;
+
+list.add(getCellData(i, j));
+
+add()   map deki muadili  ==> put(K, V);  oluyor, ve degeleri kaydetmek icin metodlarini kullaniyoruz
+
+getCellData(i, j)    ==>  put(getCellData(0, j), getCellData(i, j));
+
+icdeki bir satirdaki degerleri bir, List<String> list, olarak kaydediyor
+
+data.add(list);
+
+daha sonra bunu da data ya kaydediyoruz
+
+
+return data;
+
+yaparak data cagirmis oluyoruz
+
+
+
+    public static List<List<String>> excelIntoListOfList(String filePath, String sheetName){
+        openExcel(filePath, sheetName);
+        List<List<String>> data=new ArrayList<>();
+
+        for(int i=0; i<rowCount(); i++) {
+            List<String> list=new ArrayList<>();
+            for(int j=0; j<colCount(); j++) {
+                list.add(getCellData(i, j));
+            }
+            data.add(list);
+        }
+
+        return data;
+    }
+
