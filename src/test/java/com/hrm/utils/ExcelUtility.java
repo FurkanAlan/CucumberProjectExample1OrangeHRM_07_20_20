@@ -19,9 +19,9 @@ public class ExcelUtility {
 
     public static void openExcel(String filePath, String sheetName) {
         try {
-            FileInputStream fis=new FileInputStream(filePath);
-            wBook=new XSSFWorkbook(fis);
-            sheet=wBook.getSheet(sheetName);
+            FileInputStream fis = new FileInputStream(filePath);
+            wBook = new XSSFWorkbook(fis);
+            sheet = wBook.getSheet(sheetName);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -41,14 +41,14 @@ public class ExcelUtility {
         return sheet.getRow(rowIndex).getCell(cellIndex).toString();
     }
 
-    public static List<Map<String, String>> excelIntoListOfMaps(String filePath, String sheetName){
+    public static List<Map<String, String>> excelIntoListOfMaps(String filePath, String sheetName) {
         openExcel(filePath, sheetName);
 
-        List<Map<String, String>> data=new ArrayList<Map<String, String>>();
+        List<Map<String, String>> data = new ArrayList<Map<String, String>>();
 
-        for(int i=1; i<rowCount(); i++) {
-            Map<String, String> map=new HashMap<>();
-            for(int j=0; j<colCount(); j++) {
+        for (int i = 1; i < rowCount(); i++) {
+            Map<String, String> map = new HashMap<>();
+            for (int j = 0; j < colCount(); j++) {
                 map.put(getCellData(0, j), getCellData(i, j));
             }
             data.add(map);
@@ -57,20 +57,35 @@ public class ExcelUtility {
     }
 
 
-    public static List<ArrayList<String>> excelIntoListOfList(String filePath, String sheetName){
+    public static List<ArrayList<String>> excelIntoListOfList(String filePath, String sheetName) {
         openExcel(filePath, sheetName);
-        List<ArrayList<String>> data=new ArrayList<ArrayList<String>>();
+        List<ArrayList<String>> data = new ArrayList<ArrayList<String>>();
 //        List<List<String>> data=new ArrayList<>();
 
-        for(int i=1; i<rowCount(); i++) {
-            ArrayList<String> list=new ArrayList<String>();
+        for (int i = 0; i < rowCount(); i++) {
+            ArrayList<String> list = new ArrayList<String>();
 //            List<String> list=new ArrayList<String>();
-            for(int j=0; j<colCount(); j++) {
+            for (int j = 0; j < colCount(); j++) {
                 list.add(getCellData(i, j));
             }
             data.add(list);
         }
 
+        return data;
+    }
+
+
+    public static List<List<String>> excelToListWithListMethod(String filePath, String sheetName) {
+        openExcel(filePath, sheetName);
+        List<List<String>> data = new ArrayList<>();
+
+        for (int i = 0; i < rowCount(); i++) {
+            List<String> list = new ArrayList<String>();
+            for (int j = 0; j < colCount(); j++) {
+                list.add(getCellData(i, j));
+            }
+            data.add(list);
+        }
         return data;
     }
 }

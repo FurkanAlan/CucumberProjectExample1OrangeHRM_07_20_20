@@ -218,7 +218,7 @@ public class CommonMethods extends PageInitializer {
      */
     public static void moveTo(WebElement target) {
         Actions action = new Actions(driver);
-        action.moveToElement(target);
+        action.moveToElement(target).build().perform();
     }
 
     /**
@@ -229,7 +229,7 @@ public class CommonMethods extends PageInitializer {
     public static void actionsClick(WebElement element) {
         Actions action = new Actions(driver);
         waitForClickability(element);
-        action.click(element);
+        action.click(element).build().perform();
     }
 
     /**
