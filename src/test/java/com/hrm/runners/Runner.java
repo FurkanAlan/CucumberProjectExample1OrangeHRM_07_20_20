@@ -1,13 +1,30 @@
 package com.hrm.runners;
 
+import com.github.mkolisnyk.cucumber.runner.ExtendedCucumberOptions;
 import org.junit.runner.RunWith;
 import io.cucumber.junit.Cucumber;
 import io.cucumber.junit.CucumberOptions;
 
 @RunWith(Cucumber.class)
+//@ExtendedCucumberOptions(jsonReport = "target/*.json",
+//        retryCount = 0,
+//        detailedReport = true,
+//        detailedAggregatedReport = true,
+//        overviewReport = true,
+//        coverageReport = true,
+//        featureOverviewChart = true,
+//        jsonUsageReport = "target/*.json",
+//        usageReport = true,
+//        screenShotLocation = "/screenshots/",
+//        screenShotSize = "300px",
+//        toPDF = true,
+//        excludeCoverageTags = {"@flaky"},
+//        includeCoverageTags = {"@passed"},
+//        outputFolder = "target")
 @CucumberOptions(
+
         //1.way
-        features = "src/test/resources/features"
+        features= "src/test/resources/features"
 //        features = "src/test/resources/features/NegativeLogin.feature"
 //        features = "src/test/resources/features/PositiveLogin.feature"
         //2.way
