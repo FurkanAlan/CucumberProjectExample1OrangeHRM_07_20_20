@@ -3,6 +3,7 @@ package com.hrm.testbase;
 import java.util.Properties;
 import java.util.concurrent.TimeUnit;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -27,11 +28,13 @@ public class BaseClass extends Constants{
 
         switch (browser) {
             case "chrome":
-                System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_FILEPATH);
+//                System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_FILEPATH);
+                WebDriverManager.chromedriver().setup();
                 driver=new ChromeDriver();
                 break;
             case "firefox":
-                System.setProperty("webdriver.gecko.driver", GECKO_DRIVER_FILEPATH);
+                WebDriverManager.firefoxdriver().setup();
+//                System.setProperty("webdriver.gecko.driver", GECKO_DRIVER_FILEPATH);
                 driver=new FirefoxDriver();
                 break;
 
