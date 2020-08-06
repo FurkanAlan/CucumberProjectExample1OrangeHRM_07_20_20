@@ -110,7 +110,50 @@
 
     </dependencies>
 
-    <build>
+<!--    <build>-->
+<!--        <plugins>-->
+<!--            <plugin>-->
+<!--                <groupId>org.apache.maven.plugins</groupId>-->
+<!--                <artifactId>maven-surefire-plugin</artifactId>-->
+<!--                <version>3.0.0-M4</version>-->
+<!--                <configuration>-->
+<!--                    <includes>-->
+<!--                        <include>**/*SmokeRunner.java</include>-->
+<!--                    </includes>-->
+<!--                </configuration>-->
+<!--            </plugin>-->
+
+<!--            <plugin>-->
+<!--                <groupId>net.masterthought</groupId>-->
+<!--                <artifactId>maven-cucumber-reporting</artifactId>-->
+<!--                <version>4.11.2</version>-->
+<!--                <executions>-->
+<!--                    <execution>-->
+<!--                        <id>execution</id>-->
+<!--                        <phase>test</phase>-->
+<!--                        <goals>-->
+<!--                            <goal>generate</goal>-->
+<!--                        </goals>-->
+<!--                        <configuration>-->
+<!--                            <projectName>CucumberProjectExample1OrangeHRM_07_20_20</projectName>-->
+<!--                            &lt;!&ndash; output directory for the generated report &ndash;&gt;-->
+<!--                            <outputDirectory>${project.build.directory}</outputDirectory>-->
+<!--                            &lt;!&ndash; optional, defaults to outputDirectory if not specified &ndash;&gt;-->
+<!--                            <inputDirectory>${project.build.directory}</inputDirectory>-->
+<!--                            <jsonFiles>-->
+<!--                                &lt;!&ndash; supports wildcard or name pattern &ndash;&gt;-->
+<!--                                <param>**/*.json</param>-->
+<!--                            </jsonFiles>-->
+
+<!--                        </configuration>-->
+<!--                    </execution>-->
+<!--                </executions>-->
+<!--            </plugin>-->
+<!--        </plugins>-->
+<!--    </build>-->
+
+
+        <build>
 
         <!-- To define the plugin version in your parent POM -->
         <pluginManagement>

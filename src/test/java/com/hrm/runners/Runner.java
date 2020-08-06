@@ -24,9 +24,9 @@ import io.cucumber.junit.CucumberOptions;
 @CucumberOptions(
 
         //1.way
-        features= "src/test/resources/features"
+//        features= "src/test/resources/features"
 //        features = "src/test/resources/features/NegativeLogin.feature"
-//        features = "src/test/resources/features/PositiveLogin.feature"
+        features = "src/test/resources/features/PositiveLogin.feature"
         //2.way
 //        features = "classpath:features"
         , glue = "com/hrm/steps"
