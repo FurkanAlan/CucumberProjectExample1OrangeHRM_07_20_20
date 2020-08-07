@@ -6,6 +6,7 @@ import java.util.concurrent.TimeUnit;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 
 import com.hrm.utils.ConfigsReader;
@@ -28,14 +29,16 @@ public class BaseClass extends Constants{
 
         switch (browser) {
             case "chrome":
+                ChromeOptions chromeOptions= new ChromeOptions();
+                chromeOptions.setBinary(Constants.CHROME_DRIVER_FILEPATH);
 //                System.setProperty("webdriver.chrome.driver", CHROME_DRIVER_FILEPATH);
-                WebDriverManager.chromedriver().setup();
-                driver=new ChromeDriver();
+                driver=new ChromeDriver(chromeOptions);
                 break;
             case "firefox":
-                WebDriverManager.firefoxdriver().setup();
+                ChromeOptions fireFoxOptions= new ChromeOptions();
+                fireFoxOptions.setBinary(Constants.GECKO_DRIVER_FILEPATH);
 //                System.setProperty("webdriver.gecko.driver", GECKO_DRIVER_FILEPATH);
-                driver=new FirefoxDriver();
+                driver=new FirefoxDriver(fireFoxOptions);
                 break;
 
             default:
